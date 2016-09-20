@@ -30,13 +30,11 @@ secondsPerMove = 1.5;
 playerLevel = 1;
 linesTotal = 0;
 score = 0;
+state = GameState.Running;
 
 // The location new bricks are spawned.
 startingX = brickSize * 10;
 startingY = brickSize * 1;
-
-// the starting state of the game.
-state = GameState.Running;
 
 // the next brick
 next = scrGetNextBrick();
@@ -77,53 +75,34 @@ enum GameState
           <argument>
             <kind>1</kind>
             <string>/// Monitors the game and maintains game state.
-switch (state)
+if (state == GameState.Running &amp;&amp; instance_number(objFallingParent) == 0)
 {
-    case GameState.Running:
-        if (instance_number(objFallingParent) == 0)
-        {
-            // check if there are complete lines.
-            scrHandleCompleteLines();
-            
-            // check if the player has increased in level.
-            scrCheckPlayerLevel();
-            
-            // check for game end.
-            if (scrHasGameEnded())
-            {
-                state = GameState.Ended;
-                
-                // play game end sound.
-                audio_play_sound(sndDunDunDun, 10, false);
-                
-                scrHandleHighScore();
-                room_goto(rmHighScore);
-            }
-            else
-            {
-                var tile = instance_create(startingX, startingY, objFallingParent);
-                tile.sprite_index = next;
-                next = scrGetNextBrick();
-                
-                // play blop for tile appearance.
-                audio_play_sound(sndBlop, 10, false);
-            }
-        }
-        break;
+    // check if there are complete lines.
+    scrHandleCompleteLines();
+    
+    // check if the player has increased in level.
+    scrCheckPlayerLevel();
+    
+    // check for game end.
+    if (scrHasGameEnded())
+    {
+        state = GameState.Ended;
         
-    case GameState.Ended:
-        // TODO do game end stuff.
-        break;
-    
-    case GameState.Paused:
-    
-        break;
-}
-
-// restart the level when user presses 'R' key
-if (keyboard_check(ord("R")))
-{
-    room_restart();
+        // play game end sound.
+        audio_play_sound(sndDunDunDun, 10, false);
+        
+        scrHandleHighScore();
+        room_goto(rmHighScore);
+    }
+    else
+    {
+        var tile = instance_create(startingX, startingY, objFallingParent);
+        tile.sprite_index = next;
+        next = scrGetNextBrick();
+        
+        // play blop for tile appearance.
+        audio_play_sound(sndBlop, 10, false);
+    }
 }
 </string>
           </argument>
@@ -172,6 +151,63 @@ draw_text(400, 270, "SCORE " + string_format(score, 4, 0));
 draw_set_font(fntDigitalSmall);
 draw_text(inst1X, 375, inst1);
 draw_text(inst2X, 405, inst2);
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="9" enumb="82">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/// Restart the level
+
+room_restart();
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="9" enumb="80">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/// Pause or Unpause game.
+
+if (state == GameState.Paused)
+{
+    state = GameState.Running;
+}
+else if (state == GameState.Running)
+{
+    state = GameState.Paused;
+}
 </string>
           </argument>
         </arguments>

@@ -59,8 +59,8 @@ image_speed = 0;
             <kind>1</kind>
             <string>/// Controls the downward falling movement of the bricks.
 
-// if we are not falling we should exit now.
-if (!isFalling)
+// if we are not falling or the game is paused we should exit now.
+if (!isFalling || state != GameState.Running)
     exit;
 
 // the time since the last move in seconds.

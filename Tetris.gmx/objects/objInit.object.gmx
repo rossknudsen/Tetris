@@ -34,6 +34,10 @@ globalvar brickSize;
 globalvar scorePerRow;
 globalvar fntDigitalLarge;
 globalvar fntDigitalSmall;
+globalvar state;
+
+// start the game in the running state.
+state = GameState.Running;
 
 // the size of bricks in pixels.
 brickSize = 20;
