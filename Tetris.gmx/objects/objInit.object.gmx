@@ -42,8 +42,8 @@ brickSize = 20;
 scorePerRow = 10;
 
 // create the digital font for use in the game.
-fntDigitalLarge = font_add_sprite_ext(sprDigitalLarge, "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123465789/_", false, 1);
-fntDigitalSmall = font_add_sprite_ext(sprDigitalSmall, "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123465789/_", false, 1);
+fntDigitalLarge = font_add_sprite_ext(sprDigitalLarge, "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123465789/_ ", false, 1);
+fntDigitalSmall = font_add_sprite_ext(sprDigitalSmall, "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123465789/_ ", false, 1);
 
 // this causes the game to produce a different tile sequence each time.
 randomize();
